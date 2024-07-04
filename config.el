@@ -90,5 +90,7 @@
               ("C-TAB" . 'copilot-accept-completion-by-word)
               ("C-<tab>" . 'copilot-accept-completion-by-word)))
 
-;; set default emacs theme
-(load-theme 'default)
+
+;; custom config
+(setq doom-theme 'doom-dracula)
+(setq display-line-numbers-type 'relative)

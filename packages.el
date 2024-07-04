@@ -52,3 +52,4 @@
 (package! elpy)
 (package! copilot
   :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el")))
+(package! doom-themes)
