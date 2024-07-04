@@ -76,7 +76,19 @@
 ;; they are implemented.
 ;;
 (use-package elpy
-  :ensure t
-  :defer t
-  :init
-  (advice-add 'python-mode :before 'elpy-enable))
+  :config
+  (elpy-enable))
+
+;; Copilot config
+;; accept completion from copilot and fallback to company
+(use-package! copilot
+  :hook (prog-mode . copilot-mode)
+  :bind (:map copilot-completion-map
+              ("C-`" . 'copilot-accept-completion)
+              ("fn-TAB" . 'copilot-accept-completion)
+              ;;("TAB" . 'copilot-accept-completion)
+              ("C-TAB" . 'copilot-accept-completion-by-word)
+              ("C-<tab>" . 'copilot-accept-completion-by-word)))
+
+;; set default emacs theme
+(load-theme 'default)
