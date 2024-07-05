@@ -121,7 +121,7 @@
 
 
 ;; custom config
-(setq doom-theme 'doom-dracula)
+(setq doom-theme 'tango)
 (setq display-line-numbers-type 'relative)
 
 ;; Start and Stop timer in emacs with user input time
