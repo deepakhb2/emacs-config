@@ -53,3 +53,5 @@
 (package! copilot
   :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el")))
 (package! doom-themes)
+(package! emacs-request
+  :recipe (:host github :repo "tkf/emacs-request" :files ("*.el")))

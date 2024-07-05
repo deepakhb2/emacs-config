@@ -94,3 +94,38 @@
 ;; custom config
 (setq doom-theme 'doom-dracula)
 (setq display-line-numbers-type 'relative)
+
+;; org file
+(after! org
+  (setq org-agenda-files '("~/opensource_projects/org-mode/files/agenda.org")))
+
+;; Start and Stop timer in emacs
+(defvar my-40-min-timer nil
+  "Variable to store the 40-minute timer.")
+
+(defun start-40-min-timer ()
+  "Start a 40-minute timer that displays a message when time is up."
+  (interactive)
+  (when my-40-min-timer
+    (cancel-timer my-40-min-timer)
+    (setq my-40-min-timer nil))
+  (setq my-40-min-timer (run-at-time "5 sec" nil (lambda () (message "Time's up!"))))
+  (message "40-minute timer started."))
+
+(defun stop-40-min-timer ()
+  "Stop the 40-minute timer if it is running."
+  (interactive)
+  (if my-40-min-timer
+      (progn
+        (cancel-timer my-40-min-timer)
+        (setq my-40-min-timer nil)
+        (message "40-minute timer stopped."))
+    (message "No active timer to stop.")))
+
+(map! :leader
+      :desc "Start 40-min timer"
+      "t 4" #'start-40-min-timer)
+
+(map! :leader
+      :desc "Stop 40-min timer"
+      "t s" #'stop-40-min-timer)
