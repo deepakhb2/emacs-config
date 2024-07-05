@@ -99,33 +99,46 @@
 (after! org
   (setq org-agenda-files '("~/opensource_projects/org-mode/files/agenda.org")))
 
-;; Start and Stop timer in emacs
-(defvar my-40-min-timer nil
-  "Variable to store the 40-minute timer.")
+;; Start and Stop timer in emacs with user input time
+;; Add this to your ~/.doom.d/config.el
 
-(defun start-40-min-timer ()
-  "Start a 40-minute timer that displays a message when time is up."
-  (interactive)
-  (when my-40-min-timer
-    (cancel-timer my-40-min-timer)
-    (setq my-40-min-timer nil))
-  (setq my-40-min-timer (run-at-time "5 sec" nil (lambda () (message "Time's up!"))))
-  (message "40-minute timer started."))
+(defvar my-timer nil
+  "Variable to store the current timer.")
 
-(defun stop-40-min-timer ()
-  "Stop the 40-minute timer if it is running."
+(defvar my-timer-sound-file "~/.config/doom/sounds/alarm.wav"
+  "Path to the sound file to play when the timer ends.")
+
+(defun my-play-timer-sound ()
+  "Play a sound to indicate the timer is up."
+  (when (file-exists-p my-timer-sound-file)
+    (play-sound-file my-timer-sound-file)
+    (message "Time's up!")))
+
+(defun start-timer (duration)
+  "Start a timer for the specified DURATION that displays a message and plays a sound when time is up."
+  (interactive "sEnter timer duration (e.g., 40 min, 1 hour, 30 sec): ")
+  (when my-timer
+    (cancel-timer my-timer)
+    (setq my-timer nil))
+  (setq my-timer (run-at-time duration nil (lambda ()
+                                             (my-play-timer-sound)
+                                             (setq my-timer nil))))
+  (message "Timer started for %s. Timer ID: %s" duration my-timer))
+
+(defun stop-timer ()
+  "Stop the current timer if it is running."
   (interactive)
-  (if my-40-min-timer
+  (if my-timer
       (progn
-        (cancel-timer my-40-min-timer)
-        (setq my-40-min-timer nil)
-        (message "40-minute timer stopped."))
+        (cancel-timer my-timer)
+        (setq my-timer nil)
+        (message "Timer stopped."))
     (message "No active timer to stop.")))
 
 (map! :leader
-      :desc "Start 40-min timer"
-      "t 4" #'start-40-min-timer)
+      :desc "Start timer"
+      "t t" #'start-timer)
 
 (map! :leader
-      :desc "Stop 40-min timer"
-      "t s" #'stop-40-min-timer)
+      :desc "Stop timer"
+      "t s" #'stop-timer)
