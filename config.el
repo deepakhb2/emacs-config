@@ -75,6 +75,35 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 ;;
+
+;; org mode config
+(after! org
+  (setq org-agenda-files '("~/opensource_projects/org-mode/files/agenda.org")))
+
+;; org-roam config
+(use-package! websocket
+  :after org-roam
+  (setq org-roam-directory "~/projects/fc-notes"))
+
+(use-package! org-roam-ui
+  :after org-roam ;; or :after org
+  ;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
+  ;;         a hookable mode anymore, you're advised to pick something yourself
+  ;;         if you don't care about startup time, use
+  ;;  :hook (after-init . org-roam-ui-mode)
+  :config
+  (setq org-roam-ui-sync-theme t
+        org-roam-ui-follow t
+        org-roam-ui-update-on-save t
+        org-roam-ui-open-on-start t))
+
+
+;; deft config
+(setq deft-directory "~/projects/fc-notes"
+      deft-extesions '("org")
+      deft-recursive t)
+
+;; elpy config
 (use-package elpy
   :config
   (elpy-enable))
@@ -94,10 +123,6 @@
 ;; custom config
 (setq doom-theme 'doom-dracula)
 (setq display-line-numbers-type 'relative)
-
-;; org file
-(after! org
-  (setq org-agenda-files '("~/opensource_projects/org-mode/files/agenda.org")))
 
 ;; Start and Stop timer in emacs with user input time
 ;; Add this to your ~/.doom.d/config.el
@@ -142,3 +167,7 @@
 (map! :leader
       :desc "Stop timer"
       "t s" #'stop-timer)
+
+;; elfeed config
+(after! elfeed
+  (setq elfeed-search-filter "@1-month-ago +unread"))
