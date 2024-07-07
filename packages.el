@@ -55,5 +55,5 @@
 (package! doom-themes)
 (package! emacs-request
   :recipe (:host github :repo "tkf/emacs-request" :files ("*.el")))
-(unpin! org-roam)
-(package! org-roam-ui)
+;;(unpin! org-roam)
+;;(package! org-roam-ui)

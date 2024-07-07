@@ -41,6 +41,7 @@
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/org/")
+(setq org-agenda-files (directory-files-recursively "~/org/" "\\.org$"))
 
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
@@ -76,17 +77,20 @@
 ;; they are implemented.
 ;;
 
-;; org mode config
-(after! org
-  (setq org-agenda-files '("~/opensource_projects/org-mode/files/agenda.org")))
+;; org-mode-config
+(after! org-roam
+  (setq org-roam-directory "~/org")
+  (setq org-roam-graph-executable "/usr/local/bin/dot"))
 
-;; org-roam config
-(use-package! websocket
-  :after org-roam)
+(setq org-noter-notes-search-path '("~/org"))
+
+(setq find-file-visit-truename t)
+
+(org-roam-db-autosync-mode)
 
 
 ;; deft config
-(setq deft-directory "~/projects/fc-notes"
+(setq deft-directory "~/org/deft-notes"
       deft-extesions '("org")
       deft-recursive t)
 
