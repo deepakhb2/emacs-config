@@ -162,3 +162,41 @@
 ;; elfeed config
 (after! elfeed
   (setq elfeed-search-filter "@1-month-ago +unread"))
+
+;; Image-mode config
+;; Enable use of external image converter
+(setq image-use-external-converter t)
+
+;; Custom function to set image size
+(defun set-image-size (width height)
+  "Set the size of the current image to WIDTH and HEIGHT using an external converter."
+  (interactive "nWidth: \nnHeight: ")
+  (let ((image (get-text-property (point) 'display)))
+    (when (and image (eq (car image) 'image))
+      (plist-put (cdr image) :width width)
+      (plist-put (cdr image) :height height)
+      (image-flush image)
+      (redraw-display))))
+
+;; Bind the custom function to a key for convenience
+(global-set-key (kbd "C-c i s") 'set-image-size)
+
+;; iSpell hunspell config
+(setq ispell-program-name "hunspell")  ;; Use Hunspell for spell checking
+(setq ispell-dictionary "en_GB")       ;; Default dictionary
+(setq ispell-local-dictionary-alist
+      '(("en_GB"
+         "[[:alpha:]]"
+         "[^[:alpha:]]"
+         "[']"
+         t
+         ("-d" "en_GB")
+         nil
+         iso-8859-1)))
+
+;; Set the dictionary path
+(setq ispell-hunspell-dictionary-alist
+      '(("en_GB" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil ("-d" "en_GB") nil iso-8859-1)))
+
+;; Specify the location of your Hunspell dictionaries
+(setq ispell-hunspell-dictionary-base "/Users/deepak/dictionaries")
