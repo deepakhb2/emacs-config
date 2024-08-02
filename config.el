@@ -105,6 +105,49 @@
         org-roam-ui-open-on-start t))
 
 
+;; Cider config
+(setq cider-clojure-cli-global-options "-A:dev")
+
+;;; Clojure ;;;
+(setq rj--portal-bootstrap-form
+      "(do
+(require '[portal.api :as p])
+(def portal (p/open {:portal.colors/theme :portal.colors/solarized-light}))
+(defonce t (add-tap #'p/submit))
+(tap> :foo))")
+(defun rj--portal-bootstrap-formf (window-title)
+  (format
+   "(do
+    (require '[portal.api :as p])
+    (let [[{:keys [session-id]}] (p/sessions)]
+      (def portal (p/open {:portal.colors/theme :portal.colors/solarized-light
+                           :window-title \"%s\"
+                           :session-id session-id})))
+    (defonce t (add-tap #'p/submit))
+    (tap> :ok))"
+   window-title))
+(defun rj-insert-portal-bootstrap ()
+  (interactive)
+  (save-excursion
+    (let* ((start (point))
+           (_ (insert rj--portal-bootstrap-form))
+           (end (point)))
+      (indent-region start end))))
+(defun rj-eval-portal-bootstrap ()
+  (interactive)
+  (if (cider-current-repl)
+      (doomemacs//cider-eval-in-repl-no-focus
+       (rj--portal-bootstrap-formf (projectile-project-name)))
+    (message "No REPL")))
+(defun rj-tap-symbol ()
+  (interactive)
+  (let ((symbol (or (word-at-point)
+                    (read-string "Symbol: "))))
+    (insert (format "(tap> {:%s %s})" symbol symbol))))
+(defun rj-open-project-in-vscode ()
+  (interactive)
+  (shell-command (format "code %s"
+                         (projectile-project-root))))
 
 ;; deft config
 (setq deft-directory "~/org/deft-notes"
