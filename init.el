@@ -159,7 +159,7 @@
         +brain
         +dragndrop
         +gnuplot
-        +journal
+        ;; +journal
         +pomoddoro
         +present
         +pretty
