@@ -260,3 +260,7 @@
 
 ;; Specify the location of your Hunspell dictionaries
 (setq ispell-hunspell-dictionary-base "/Users/deepak/dictionaries")
+
+;; org-gcal
+(setq org-gcal-client-id (getenv "ORG_GCAL_CLIENT_ID"))
+(setq org-gcal-client-secret (getenv "ORG_GCAL_CLIENT_SECRET"))
