@@ -19,6 +19,18 @@
       (concat "${title:*} "
               (propertize "${tags:10}" 'face 'org-tag)))
 
+;; org-todo
+(with-eval-after-load 'org
+  (let ((new-states '((sequence "SPIKE(s)" "IN-PROGRESS(I)" "REVIEW(R)" "|" "DELEGATED(D)"))))
+    (dolist (new-state new-states)
+      (add-to-list 'org-todo-keywords new-state t)))
+  (let ((new-faces '(("SPIKE" . (:foreground "orange" :weight bold))
+                     ("IN-PROGRESS" . (:foreground "blue" :weight bold))
+                     ("REVIEW" . (:foreground "purple" :weight bold))
+                     ("DELEGATED" . (:foreground "brown" :weight bold)))))
+    (dolist (face new-faces)
+      (add-to-list 'org-todo-keyword-faces face t))))
+
 ;; Convert md file to org file
 (defun markdown-convert-buffer-to-org ()
   "Convert the current buffer's content from markdown to orgmode format and save it with the current buffer's file name but with .org extension."
